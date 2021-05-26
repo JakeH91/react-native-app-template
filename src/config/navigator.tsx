@@ -1,8 +1,9 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen, SigninScreen, SignupScreen } from "@screens";
+import { Context as AuthContext } from "@context/authContext";
 
 export type StackNavigatorParams = {
   Signin: undefined;
@@ -12,7 +13,7 @@ export type StackNavigatorParams = {
 const AuthStack = createStackNavigator<StackNavigatorParams>();
 
 const LoginFlow = (): ReactElement => (
-  <AuthStack.Navigator>
+  <AuthStack.Navigator headerMode="none">
     <AuthStack.Screen name={"Signup"} component={SignupScreen} />
     <AuthStack.Screen name={"Signin"} component={SigninScreen} />
   </AuthStack.Navigator>
@@ -31,12 +32,12 @@ const MainFlow = (): ReactElement => (
 );
 
 export default function Navigator(): ReactElement {
-  const isLoggedIn = false;
+  const { state } = useContext(AuthContext);
 
   return (
     <NavigationContainer>
-      {!isLoggedIn && <LoginFlow />}
-      {isLoggedIn && <MainFlow />}
+      {!state.token && <LoginFlow />}
+      {state.token && <MainFlow />}
     </NavigationContainer>
   );
 }

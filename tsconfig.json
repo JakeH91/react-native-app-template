@@ -4,7 +4,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@components": ["src/components"],
       "@config/*": ["src/config/*"],
+      "@context/*": ["src/context/*"],
       "@screens": ["src/screens"]
     }
   }
