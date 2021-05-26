@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { TextInput } from "react-native";
 import { Text, Button, Input } from "react-native-elements";
 import styles from "./AuthForm.styles";
 
@@ -22,6 +23,7 @@ const AuthForm = ({
 }: AuthFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const passwordRef = useRef<TextInput | null>(null);
 
   return (
     <>
@@ -30,13 +32,19 @@ const AuthForm = ({
       </Text>
       <Input
         label="Email"
+        returnKeyType="next"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         autoCorrect={false}
+        onSubmitEditing={() => {
+          passwordRef.current?.focus();
+        }}
       />
       <Input
         label="Password"
+        ref={passwordRef}
+        returnKeyType="done"
         value={password}
         onChangeText={setPassword}
         autoCapitalize="none"
