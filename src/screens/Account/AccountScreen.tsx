@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Text } from "react-native";
 import { Button } from "react-native-elements";
-import { Context as AuthContext } from "@context/authContext";
+import { Context as AuthContext } from "@context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./AccountScreen.styles";
 

@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext } from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,7 +10,7 @@ import {
   SignupScreen,
   LoadingScreen,
 } from "@screens";
-import { Context as AuthContext } from "@context/authContext";
+import { Context as AuthContext } from "@context/AuthContext";
 
 export type StackNavigatorParams = {
   Loading: undefined;

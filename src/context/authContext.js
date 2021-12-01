@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import createDataContext from "./createDataContext";
-import Api from "../api/api";
+import AuthApi from "../api/AuthApi";
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -12,7 +12,12 @@ const authReducer = (state, action) => {
     case "clear_error":
       return { ...state, errorMessage: "" };
     case "signout":
-      return { ...state, errorMessage: "", token: null };
+      return {
+        ...state,
+        errorMessage: "",
+        token: null,
+        autoAuthAttempted: false,
+      };
     case "begin_auth_flow":
       return { ...state, autoAuthAttempted: true };
     default:
@@ -38,7 +43,7 @@ const signup =
   (dispatch) =>
   async ({ email, password }) => {
     try {
-      const response = await Api.post("/signup", {
+      const response = await AuthApi.post("/signup", {
         email: email.trim(),
         password,
       });
@@ -60,7 +65,7 @@ const signin =
   (dispatch) =>
   async ({ email, password }) => {
     try {
-      const response = await Api.post("/signin", {
+      const response = await AuthApi.post("/signin", {
         email: email.trim(),
         password,
       });

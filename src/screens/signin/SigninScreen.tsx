@@ -3,7 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import styles from "./SigninScreen.styles";
-import { Context as AuthContext } from "@context/authContext";
+import { Context as AuthContext } from "@context/AuthContext";
 import { AuthForm, NavLink } from "@components";
 
 type SigninProps = {
@@ -31,6 +31,8 @@ const SigninScreen = ({ navigation }: SigninProps) => {
         headerText="Sign In"
         errorMessage={state.errorMessage}
         buttonText="Sign In"
+        emailLabel="Email"
+        passwordLabel="Password"
         onSubmit={signin}
       />
       <NavLink

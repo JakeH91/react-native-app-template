@@ -10,6 +10,8 @@ type OnSubmitParams = {
 
 type AuthFormProps = {
   headerText: string;
+  emailLabel: string;
+  passwordLabel: string;
   errorMessage: string;
   buttonText: string;
   onSubmit: ({}: OnSubmitParams) => void;
@@ -17,6 +19,8 @@ type AuthFormProps = {
 
 const AuthForm = ({
   headerText,
+  emailLabel,
+  passwordLabel,
   errorMessage,
   buttonText,
   onSubmit,
@@ -31,7 +35,7 @@ const AuthForm = ({
         {headerText}
       </Text>
       <Input
-        label="Email"
+        label={emailLabel}
         returnKeyType="next"
         value={email}
         onChangeText={setEmail}
@@ -42,7 +46,7 @@ const AuthForm = ({
         }}
       />
       <Input
-        label="Password"
+        label={passwordLabel}
         ref={passwordRef}
         returnKeyType="done"
         value={password}
