@@ -3,6 +3,7 @@ import { Context as ContentContext } from "@context/ContentContext";
 import { View, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./NavBar.styles";
+import { LanguageType } from "@common/types";
 
 const NavBar = (): ReactElement => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -21,7 +22,7 @@ const NavBar = (): ReactElement => {
       </View>
       {showDropdown && (
         <View style={styles.dropdown}>
-          {contentState.languages.map((language: string) => {
+          {contentState.languages.map((language: LanguageType) => {
             return (
               <TouchableOpacity
                 key={`lang-${language}`}

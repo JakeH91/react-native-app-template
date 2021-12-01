@@ -2,7 +2,37 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import createDataContext from "./createDataContext";
 import AuthApi from "../api/AuthApi";
 
-const authReducer = (state, action) => {
+export type State = {
+  token: string | null;
+  errorMessage: string;
+  autoAuthAttempted: boolean;
+};
+
+export type Action =
+  | {
+      type: "signin";
+      payload: string;
+    }
+  | { type: "signup"; payload: string }
+  | { type: "signout" }
+  | { type: "add_error"; payload: string }
+  | { type: "clear_error" }
+  | { type: "begin_auth_flow" };
+
+export type Actions = {
+  tryLocalSignin: () => void;
+  clearErrorMessage: () => void;
+  signout: () => void;
+  signup: ({ email, password }: AuthType) => void;
+  signin: ({ email, password }: AuthType) => void;
+};
+
+type AuthType = {
+  email: string;
+  password: string;
+};
+
+const authReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "signin":
     case "signup":
@@ -25,7 +55,7 @@ const authReducer = (state, action) => {
   }
 };
 
-const tryLocalSignin = (dispatch) => async () => {
+const tryLocalSignin = (dispatch: React.Dispatch<Action>) => async () => {
   const token = await AsyncStorage.getItem("token");
 
   if (token) {
@@ -35,13 +65,13 @@ const tryLocalSignin = (dispatch) => async () => {
   }
 };
 
-const clearErrorMessage = (dispatch) => () => {
+const clearErrorMessage = (dispatch: React.Dispatch<Action>) => async () => {
   dispatch({ type: "clear_error" });
 };
 
 const signup =
-  (dispatch) =>
-  async ({ email, password }) => {
+  (dispatch: React.Dispatch<Action>) =>
+  async ({ email, password }: AuthType) => {
     try {
       const response = await AuthApi.post("/signup", {
         email: email.trim(),
@@ -62,8 +92,8 @@ const signup =
   };
 
 const signin =
-  (dispatch) =>
-  async ({ email, password }) => {
+  (dispatch: React.Dispatch<Action>) =>
+  async ({ email, password }: AuthType) => {
     try {
       const response = await AuthApi.post("/signin", {
         email: email.trim(),
@@ -83,7 +113,7 @@ const signin =
     }
   };
 
-const signout = (dispatch) => async () => {
+const signout = (dispatch: React.Dispatch<Action>) => async () => {
   await AsyncStorage.removeItem("token");
   dispatch({ type: "signout" });
 };
