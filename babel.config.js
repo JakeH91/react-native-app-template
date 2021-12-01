@@ -10,6 +10,7 @@ module.exports = function (api) {
             "@components": "./src/components",
             "@config": "./src/config",
             "@context": "./src/context",
+            "@common": "./src/common",
             "@screens": "./src/screens",
           },
         },

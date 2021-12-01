@@ -4,26 +4,17 @@ import { StackNavigatorParams } from "@config/navigator";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import styles from "./SignupScreen.styles";
 import { Context as AuthContext } from "@context/AuthContext";
-import { Context as ContentContext } from "@context/ContentContext";
 import { AuthForm, NavLink } from "@components";
+import { useContent } from "@common/hooks";
 
 type SignupProps = {
   navigation: StackNavigationProp<StackNavigatorParams>;
 };
 
 const SignupScreen = ({ navigation }: SignupProps) => {
-  const {
-    state: authState,
-    signup,
-    clearErrorMessage,
-  } = useContext(AuthContext);
-  const { state: contentState, getContent } = useContext(ContentContext);
+  const { state, signup, clearErrorMessage } = useContext(AuthContext);
 
-  const t = contentState.Signup;
-
-  useEffect(() => {
-    getContent("Signup");
-  }, [contentState.selectedLanguage]);
+  const c = useContent("Signup");
 
   useEffect(() => {
     const listener = navigation.addListener("blur", () => {
@@ -33,7 +24,7 @@ const SignupScreen = ({ navigation }: SignupProps) => {
     return listener;
   }, []);
 
-  if (Object.keys(t).length === 0) {
+  if (!c) {
     return null;
   }
 
@@ -44,14 +35,14 @@ const SignupScreen = ({ navigation }: SignupProps) => {
       keyboardVerticalOffset={100}
     >
       <AuthForm
-        headerText={t.title}
-        errorMessage={authState.errorMessage}
-        buttonText={t.buttonText}
-        emailLabel={t.email}
-        passwordLabel={t.password}
+        headerText={c.title}
+        errorMessage={state.errorMessage}
+        buttonText={c.buttonText}
+        emailLabel={c.email}
+        passwordLabel={c.password}
         onSubmit={signup}
       />
-      <NavLink linkText={t.linkText} routeName="Signin" />
+      <NavLink linkText={c.linkText} routeName="Signin" />
     </KeyboardAvoidingView>
   );
 };
